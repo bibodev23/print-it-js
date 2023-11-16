@@ -26,16 +26,20 @@ let i = 0
 let flecheGauche = document.querySelector(".arrow_left")
 flecheGauche.addEventListener("click", auClicGauche)
 function auClicGauche() {
+	i--
+	if (i < 0) i = slides.length - 1;	
 	console.log("test fleche gauche")
+	text.innerHTML =slides[i]["tagLine"]
+	image.setAttribute("src", "./assets/images/slideshow/" + slides[i]["image"])
+	
 }
 
 let flecheDroite = document.querySelector(".arrow_right")
 flecheDroite.addEventListener("click", auClicDroit)
 function auClicDroit() {
-	alert("test fleche droite")
-	console.log(slides[i]["tagLine"])
-	console.log(slides[i]["image"])
 	i++
-	if (i >= slides.length)
-		return i = 0
+	if (i >= slides.length) i = 0
+	console.log("test fleche droite")
+	text.innerHTML =slides[i]["tagLine"]
+	image.setAttribute("src", "./assets/images/slideshow/" + slides[i]["image"])
 }
