@@ -16,30 +16,76 @@ const slides = [
 		"tagLine": "Autocollants <span>avec découpe laser sur mesure</span>"
 	}
 ]
-let slider = document.getElementById("banner");
-slider.setAttribute("class", "test")
 
-let image = document.getElementById("banner-img")
+let nbrSlides = slides.length - 1
+
+let srcImg = "./assets/images/slideshow/"
+
+let imageSlide = document.getElementById("banner-img")
 let text = document.querySelector("#banner p")
+let dots = document.querySelector(".dots");
 
-let i = 0
-let flecheGauche = document.querySelector(".arrow_left")
-flecheGauche.addEventListener("click", auClicGauche)
-function auClicGauche() {
-	i--
-	if (i < 0) i = slides.length - 1;	
-	console.log("test fleche gauche")
-	text.innerHTML =slides[i]["tagLine"]
-	image.setAttribute("src", "./assets/images/slideshow/" + slides[i]["image"])
-	
+let indexSlide = 0;
+
+function creationDot() {
+	slides.forEach(() => {
+		let dot = document.createElement("div");
+		dot.classList.add("dot");
+		dots.appendChild(dot);
+	});
 }
 
-let flecheDroite = document.querySelector(".arrow_right")
-flecheDroite.addEventListener("click", auClicDroit)
-function auClicDroit() {
-	i++
-	if (i >= slides.length) i = 0
-	console.log("test fleche droite")
-	text.innerHTML =slides[i]["tagLine"]
-	image.setAttribute("src", "./assets/images/slideshow/" + slides[i]["image"])
+function majDots() {
+	// j'utilise en deuxieme argument 'indexDot' pour obtenir l'index de mon élément dot
+	document.querySelectorAll('.dot').forEach((dot, indexDot) => {
+		// je vérifie si mon index dot correspond à l'index du slid, si c'est le cas je rajoute au dot la classe dot_selected
+		if (indexDot === indexSlide) {
+			dot.classList.add("dot_selected");
+		} else {
+			dot.classList.remove("dot_selected");
+		}
+	});
 }
+
+function utilisationFleche() {
+	//Utilisation d'une fonction simple pour la flèche gauche avec déclaration de variable
+	let flecheGauche = document.querySelector(".arrow_left")
+	flecheGauche.addEventListener("click", auClicGauche)
+	function auClicGauche() {
+		indexSlide--
+		if (indexSlide < 0) indexSlide = nbrSlides;
+		console.log("test fleche gauche")
+		text.innerHTML = slides[indexSlide]["tagLine"]
+		console.log(slides[indexSlide]["image"])
+		imageSlide.setAttribute("src", srcImg + slides[indexSlide]["image"])
+		majDots()
+	}
+
+	//Utilisation d'une fonction fléchée anonyme avec le EventListener pour la flèche droite
+	let flecheDroite = document.querySelector(".arrow_right")
+	flecheDroite.addEventListener("click", auCliqueDroit)
+	function auCliqueDroit() {
+		// j'incrémente mon index suite au clic pour me position dans le tableau des slides
+		indexSlide++
+		//Je vérifie si la valeur de mon index n'a pas dépassée le nbr de slides
+		if (indexSlide > nbrSlides) indexSlide = 0
+		console.log("test fleche droite")
+		// je définie la nouveau contenu de ma variable text en y inserant la tagline de l'index correspondant
+		text.innerHTML = slides[indexSlide]["tagLine"]
+		console.log(slides[indexSlide]["image"])
+		imageSlide.setAttribute("src", srcImg + slides[indexSlide]["image"])
+		majDots()
+	}
+}
+
+
+
+
+function lancerDiapo() {
+	creationDot()
+	majDots()
+	utilisationFleche()
+}
+
+lancerDiapo()
+
