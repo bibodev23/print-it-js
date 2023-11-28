@@ -293,9 +293,3 @@ footer div {
 		flex: 2;
 	}
 }
-
-
-.test {
-	border: 2px solid red;
-	box-sizing: border-box;
-}
